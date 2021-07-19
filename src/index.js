@@ -1,7 +1,7 @@
 const http = require('http');
 const routes = require('./routes');
 const url = require('url');
-
+const bodyParser = require('./helpers/bodyParser');
 
 const PORT = 3000;
 
@@ -15,8 +15,8 @@ const server = http.createServer((request, response) => {
 
   const splitEndpoint = pathname.split('/').filter(Boolean);
 
-  if (splitEndpoint > 1) {
-    pathname = `${splitEndpoint[0]}/:id`;
+  if (splitEndpoint.length > 1) {
+    pathname = `/${splitEndpoint[0]}/:id`;
     id = splitEndpoint[1];
   }
 
@@ -36,7 +36,12 @@ const server = http.createServer((request, response) => {
       response.writeHead(statusCode, {'content-type': 'application/json'});
       response.end(JSON.stringify(body));
     };
-    route.handler(request, response);
+
+    if (['POST', 'PUT'].includes(request.method)) {
+      bodyParser(request, () => route.handler(request,response));
+    } else {
+      route.handler(request, response);
+    }
   }
 });
 
