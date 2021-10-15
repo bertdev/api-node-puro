@@ -4,7 +4,8 @@
 - Essa api realiza as atividades de um CRUD.
 - Utiliza mock de dados, pois a intenção era só práticar a base de node puro.
 
-### Técnologias ⚙️
+## Técnologias ⚙️
+
 - Node - v14.17.0
 
 ## Contatos 📬
